@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import pageObjects.LoginPage;
 
 public class WebDriverManagement {
@@ -30,15 +31,22 @@ public class WebDriverManagement {
 
 		if (driver == null) {
 			if (browser.equalsIgnoreCase("chrome")) {
-				System.setProperty("webdriver.chrome.driver",
-						System.getProperty("user.dir") + "//src//test//resources//chromedriver.exe");
+				WebDriverManager.chromedriver().setup();
+				// System.setProperty("webdriver.chrome.driver",
+				// System.getProperty("user.dir") + "//src//test//resources//chromedriver.exe");
 				driver = new ChromeDriver();// driver gets the life
+			} else if (browser.equalsIgnoreCase("firefox")) {
+				WebDriverManager.firefoxdriver().setup();
+				// System.setProperty("webdriver.gecko.driver",
+				// System.getProperty("user.dir") + "//src//test//resources//chromedriver");
+				driver = new FirefoxDriver();
+			} else if (browser.equalsIgnoreCase("edge")) {
+				WebDriverManager.edgedriver().setup();
+				// System.setProperty("webdriver.gecko.driver",
+				// System.getProperty("user.dir") + "//src//test//resources//chromedriver");
+				driver = new FirefoxDriver();
 			}
-			/*
-			 * if (browser.equalsIgnoreCase("firefox")) {
-			 * System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") +
-			 * "//src//test//resources//chromedriver"); driver = new FirefoxDriver(); }
-			 */
+
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 			driver.get(url);
 			driver.manage().window().maximize();
